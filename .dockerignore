@@ -1,0 +1,12 @@
+.git
+.github
+.venv
+tests
+scripts
+unraid
+config
+**/__pycache__
+.pytest_cache
+.ruff_cache
+fake_band3.json
+.env

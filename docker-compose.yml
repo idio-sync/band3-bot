@@ -1,0 +1,15 @@
+services:
+  band3-bot:
+    build:
+      context: .
+      args:
+        BAND3_REF: main
+    image: band3-bot:latest
+    container_name: band3-bot
+    # host networking, so band3's discovery broadcast (UDP 21072) reaches the bot
+    network_mode: host
+    volumes:
+      - ./config:/config
+    env_file:
+      - .env
+    restart: unless-stopped

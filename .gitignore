@@ -1,0 +1,9 @@
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.venv/
+config/
+.env
+fake_band3.json
+# a local copy of band3's page, for LOCAL_PAGE=1 builds and local runs
+web/library.html

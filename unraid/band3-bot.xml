@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>band3-bot</Name>
+  <Repository>ghcr.io/idio-sync/band3-bot:latest</Repository>
+  <Registry>https://github.com/idio-sync/band3-bot/pkgs/container/band3-bot</Registry>
+  <Network>br0</Network>
+  <MyIP/>
+  <Shell>sh</Shell>
+  <Privileged>false</Privileged>
+  <Support>https://github.com/idio-sync/band3-bot/issues</Support>
+  <Project>https://github.com/idio-sync/band3-bot</Project>
+  <Overview>Discord song requests for band3 (the PC recompilation of Rock Band 3). People on your Discord server request custom songs from RhythmVerse with /request, and browse the band's song library on a web page with /browse; every paired band3 downloads each request the next time it's online.[br][br]Networking: band3 finds the bot by a LAN broadcast on UDP 21072, which Docker's default bridge network doesn't pass into a container. This template uses br0 (the container gets its own LAN IP; set one under Fixed IP address, or let DHCP give one). Host networking also works. With bridge, discovery won't work and each game needs requests_server set by hand.[br][br]Put the browse page behind your reverse proxy and set Public URL to that address.</Overview>
+  <Category>GameServers: MediaApp:Music</Category>
+  <WebUI>http://[IP]:[PORT:8080]/browse</WebUI>
+  <TemplateURL>https://raw.githubusercontent.com/idio-sync/band3-bot/main/unraid/band3-bot.xml</TemplateURL>
+  <Icon>https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/discord.png</Icon>
+  <ExtraParams/>
+  <PostArgs/>
+  <Config Name="Web port" Target="8080" Default="8080" Mode="tcp" Description="Browse page and band3's API. With br0 or Host networking this is the port on the container's own address; keep it the same as PORT." Type="Port" Display="always" Required="true" Mask="false">8080</Config>
+  <Config Name="Discovery port" Target="21072" Default="21072" Mode="udp" Description="band3's LAN discovery broadcast (needs br0 or Host networking)" Type="Port" Display="advanced" Required="true" Mask="false">21072</Config>
+  <Config Name="Config" Target="/config" Default="/mnt/user/appdata/band3-bot" Mode="rw" Description="Database (band3-bot.db) and album art (art/)" Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/band3-bot</Config>
+  <Config Name="Discord token" Target="DISCORD_TOKEN" Default="" Mode="" Description="Discord Developer Portal &gt; your application &gt; Bot &gt; Reset Token" Type="Variable" Display="always" Required="true" Mask="true"></Config>
+  <Config Name="Discord server ID" Target="DISCORD_GUILD_ID" Default="" Mode="" Description="Right-click your server &gt; Copy Server ID (needs Developer Mode); commands appear there at once" Type="Variable" Display="always" Required="false" Mask="false"></Config>
+  <Config Name="Public URL" Target="PUBLIC_URL" Default="" Mode="" Description="The browse page's address through your reverse proxy, e.g. https://band3.example.com, for /browse links" Type="Variable" Display="always" Required="true" Mask="false"></Config>
+  <Config Name="Bot name" Target="BOT_NAME" Default="band3-bot" Mode="" Description="What band3 shows in Settings &gt; Online" Type="Variable" Display="always" Required="false" Mask="false">band3-bot</Config>
+  <Config Name="Requester role" Target="REQUESTER_ROLE" Default="" Mode="" Description="Optional: only members with this Discord role (name or ID) can request" Type="Variable" Display="always" Required="false" Mask="false"></Config>
+  <Config Name="Approver role" Target="APPROVER_ROLE" Default="" Mode="" Description="Optional: requests wait for an approver's button; approvers (and the server owner) pair games" Type="Variable" Display="always" Required="false" Mask="false"></Config>
+  <Config Name="Per-user limit" Target="PER_USER_LIMIT" Default="5" Mode="" Description="Requests per user per 24 hours; approvers aren't limited; 0 = no limit" Type="Variable" Display="always" Required="false" Mask="false">5</Config>
+  <Config Name="Share album art" Target="SHARE_ALBUM_ART" Default="true" Mode="" Description="Ask games for their songs' album art for the browse page" Type="Variable" Display="advanced" Required="false" Mask="false">true</Config>
+  <Config Name="Advertise URL" Target="ADVERTISE_URL" Default="" Mode="" Description="What band3 is told to connect to; blank = http://(the container's LAN address):PORT" Type="Variable" Display="advanced" Required="false" Mask="false"></Config>
+  <Config Name="Port" Target="PORT" Default="8080" Mode="" Description="The port the bot listens on inside the container" Type="Variable" Display="advanced" Required="false" Mask="false">8080</Config>
+  <Config Name="Secret" Target="SECRET" Default="" Mode="" Description="Signs /browse links; blank = generated once and kept in /config" Type="Variable" Display="advanced" Required="false" Mask="true"></Config>
+</Container>
