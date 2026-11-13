@@ -100,16 +100,19 @@ see it. An approver's own requests don't wait.
 ```sh
 python -m venv .venv && .venv/bin/pip install -r requirements-dev.txt
 ruff check . && python -m pytest -q
-CONFIG_DIR=./config LIBRARY_PAGE=../band3_recomp/web/library.html python -m app
+CONFIG_DIR=./config LIBRARY_PAGE=web/library.html python -m app
 ```
 
 `scripts/fake_band3.py` stands in for a game: it discovers the bot, pairs (printing the
 code to `/pair`), polls, "downloads" each request reporting each state, and uploads a small
 library and its art.
 
-The Docker build fetches `web/library.html` from band3 at `BAND3_REF` (default `main`). To
-build with a local copy instead, put it at `web/library.html` and build with
-`--build-arg LOCAL_PAGE=1`.
+`web/library.html` is band3's library page, copied here because band3's repo is private.
+After the page changes in band3, refresh the copy and commit it:
+
+```sh
+python scripts/sync_page.py ../band3_recomp
+```
 
 Images are built by GitHub Actions and pushed to `ghcr.io/idio-sync/band3-bot`: `latest` and
 `sha-<commit>` from `main`, and `1.2.3` and `1.2` from a `v1.2.3` tag.
